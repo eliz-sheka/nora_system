@@ -16,6 +16,7 @@ class Role extends Model
      * @var array
      */
     protected $fillable = [
+        'slug',
         'name',
     ];
 
@@ -23,6 +24,7 @@ class Role extends Model
      * @var array
      */
     protected $casts = [
+        'slug' => 'string',
         'name' => 'string',
     ];
 
