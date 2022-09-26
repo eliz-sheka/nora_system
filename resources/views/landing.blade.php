@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
 
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{{ asset('assets/landing/css/common.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('assets/css/common.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/landing/css/main.min.css') }}" rel="stylesheet" />
 </head>
 <body id="page-top">
@@ -205,7 +205,7 @@
 </footer>
 
 <!-- Core theme JS-->
-<script src="{{ asset('assets/landing/js/common.min.js') }}"></script>
+<script src="{{ asset('assets/js/common.min.js') }}"></script>
 <script src="{{ asset('assets/landing/js/main.min.js') }}"></script>
 
 </body>

@@ -30,19 +30,27 @@ function commonStyles() {
     return src(['node_modules/bootstrap/dist/css/bootstrap.css', 'node_modules/bootstrap-icons/font/bootstrap-icons.css'])
         .pipe(uglifycss())
         .pipe(rename('common.min.css'))
-        .pipe(dest('public/assets/landing/css/'));
+        .pipe(dest('public/assets/css/'));
 }
 
 function copyBootstrapFonts() {
     return src('node_modules/bootstrap-icons/font/fonts/*')
-        .pipe(dest('public/assets/landing/css/fonts/'));
+        .pipe(dest('public/assets/css/fonts/'));
 }
 
 function adminStyles() {
-    return src('resources/landing/css/styles.css')
+    return src([
+        'resources/admin/assets/vendor/css/core.css',
+        'resources/admin/assets/vendor/css/theme-default.css',
+        'resources/admin/assets/css/demo.css',
+
+        // 'resources/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css',
+        // 'resources/admin/assets/vendor/libs/apex-charts/apex-charts.css',
+    ])
+        .pipe(concat('main.css'))
         .pipe(uglifycss())
         .pipe(rename('main.min.css'))
-        .pipe(dest('public/assets/landing/css/'));
+        .pipe(dest('public/assets/admin/css/'));
 }
 
 // Scripts
@@ -57,14 +65,21 @@ function commonScripts() {
     return src(['node_modules/jquery/dist/jquery.js', 'node_modules/bootstrap/dist/js/bootstrap.js', 'node_modules/@popperjs/core/dist/umd/popper.js'])
         .pipe(uglify())
         .pipe(rename('common.min.js'))
-        .pipe(dest('public/assets/landing/js/'));
+        .pipe(dest('public/assets/js/'));
 }
 
 function adminScripts() {
-    return src('resources/landing/js/scripts.js')
+    return src([
+        'resources/admin/assets/vendor/js/menu.js',
+        'resources/admin/assets/js/main.js',
+
+        // 'resources/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js',
+        // 'resources/admin/assets/vendor/libs/apex-charts/apexcharts.js',
+    ])
+        .pipe(concat('main.js'))
         .pipe(uglify())
         .pipe(rename('main.min.js'))
-        .pipe(dest('public/assets/landing/js/'));
+        .pipe(dest('public/assets/admin/js/'));
 }
 
 // Watch Files For Changes
@@ -73,5 +88,6 @@ function adminScripts() {
 // });
 
 // Default Task
-exports.build_landing = series(commonStyles, copyBootstrapFonts, styles, commonScripts, scripts);
+exports.build_common = series(commonStyles, copyBootstrapFonts, commonScripts);
+exports.build_landing = series(styles, scripts);
 exports.build_admin = series(adminStyles, adminScripts);
