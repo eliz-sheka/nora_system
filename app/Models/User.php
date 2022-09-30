@@ -52,9 +52,27 @@ class User extends Authenticatable
     ];
 
     /**
+     * @return string
+     */
+    public function getFullNameAttribute(): string
+    {
+        $fullName = "{$this->last_name} {$this->first_name} {$this->middle_name}";
+
+        return trim($fullName) ?: '-';
+    }
+
+    /**
+     * @return string
+     */
+    public function getRoleAttribute(): string
+    {
+        return $this->roles()->first(['name']);
+    }
+
+    /**
      * @return BelongsToMany
      */
-    public function users(): BelongsToMany
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }

@@ -37,6 +37,19 @@ trait HasRole
      */
     public function isAdmin(): bool
     {
-        return (bool) $this->roles()->where('roles.name', 'admin')->first(['roles.id']);
+        return $this->hasRole('admin');
+    }
+
+    /**
+     * @param string|array $name
+     * @return bool
+     */
+    public function hasRole(string|array $name): bool
+    {
+        if (is_array($name)) {
+            return (bool) $this->roles()->whereIn('roles.name', $name)->first(['roles.id']);
+        }
+
+        return (bool) $this->roles()->where('roles.name', $name)->first(['roles.id']);
     }
 }

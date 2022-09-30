@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->unsignedSmallInteger('amount');
-            $table->unsignedTinyInteger('unit')->default(Discount::UNIT_PERCENT);
+            $table->string('unit', 10)->default(Discount::UNIT_PERCENT);
             $table->unsignedSmallInteger('quantity')->nullable();
             $table->dateTime('active_till')->nullable();
             $table->foreignIdFor(User::class, 'user_id')->nullable()->onDelete('set null');
