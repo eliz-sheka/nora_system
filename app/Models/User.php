@@ -3,7 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\Roles;
+use App\Enums\Sex;
 use App\Models\Traits\HasRole;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -30,6 +33,8 @@ class User extends Authenticatable
         'email',
         'phone',
         'password',
+        'sex',
+        'birth_date',
     ];
 
     /**
@@ -64,9 +69,25 @@ class User extends Authenticatable
     /**
      * @return string
      */
-    public function getRoleAttribute(): string
+    public function getSexNameAttribute(): string
     {
-        return $this->roles()->first(['name']);
+        return Sex::getMappedNameByValue($this->getAttribute('sex'));
+    }
+
+    /**
+     * @return string
+     */
+    public function getRoleNameAttribute(): string
+    {
+        return $this->roles()->value('name');
+    }
+
+    /**
+     * @return string
+     */
+    public function getRoleSlugAttribute(): string
+    {
+        return $this->roles()->value('slug');
     }
 
     /**
@@ -83,5 +104,16 @@ class User extends Authenticatable
     public function visit(): HasMany
     {
         return $this->hasMany(Visit::class, 'label_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeManagement(): Builder
+    {
+        return User::query()
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'role_user.role_id')
+            ->whereIn('roles.slug', Roles::getManagementRoles());
     }
 }

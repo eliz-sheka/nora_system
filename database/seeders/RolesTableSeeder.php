@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Roles;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
 
@@ -15,9 +16,9 @@ class RolesTableSeeder extends Seeder
     public function run(): void
     {
         $roles = [
-            'user' => 'Користувач',
-            'manager' => 'Менеджер',
-            'admin' => 'Адміністратор',
+            Roles::ADMIN->value => 'Адміністратор',
+            Roles::MANAGER->value => 'Менеджер',
+            Roles::USER->value => 'Користувач',
         ];
 
         foreach ($roles as $slug => $roleName) {

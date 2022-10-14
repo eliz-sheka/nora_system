@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 interface CRUDInterface
 {
@@ -14,7 +15,7 @@ interface CRUDInterface
 
     public function edit(): View;
 
-    public function save(): View;
+    public function save(): RedirectResponse;
 
     public function update(): View;
 

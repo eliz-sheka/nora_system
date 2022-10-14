@@ -2,25 +2,23 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
-use App\Models\Image;
-use App\Models\Product;
-use App\Repositories\ProductRepository;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class TestDataSeeder extends Seeder
 {
     public function run(): void
     {
-        Category::query()->each(static function (Category $category) {
-            Image::factory()->count(1)->for($category, 'model')->create();
+        $this->call([
+            RolesTableSeeder::class,
+            UsersTableSeeder::class,
+        ]);
 
-            $products = Product::factory()->count(rand(3, 10))->hasImages(3)->create();
+        $users = User::factory(4)->create();
 
-            foreach ($products as $product) {
-//                (new ProductRepository)->attachCategories($product, [$category]);
-                $product->categories()->attach($category);
-            }
-        });
+        /** @var User $user */
+        foreach ($users as $user) {
+            $user->assignManagerRole();
+        }
     }
 }

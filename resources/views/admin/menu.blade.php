@@ -68,7 +68,7 @@
 
     <ul class="menu-inner py-1">
 
-        <li class="menu-item active">
+        <li class="menu-item {{ $elementActive == 'visit' ? 'active' : '' }}">
             <a href="" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Візити</div>
@@ -117,7 +117,7 @@
         </li>
 
 {{--        @role('admin')--}}
-            <li class="menu-item">
+            <li class="menu-item {{ $elementActive == 'user' ? 'active' : '' }}">
                 <a href="{{ route('admin.user.list') }}" class="menu-link">
                     <i class="menu-icon tf-icons bx bx-home-circle"></i>
                     <div data-i18n="Analytics">Користувачі</div>

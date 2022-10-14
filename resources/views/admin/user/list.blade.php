@@ -1,4 +1,4 @@
-@extends('admin.index')
+@extends('admin.index', ['elementActive' => 'user'])
 
 @section('content')
     <div class="card">
@@ -19,29 +19,45 @@
                 <tbody>
                 @foreach($entities as $entity)
                     <tr>
-                        <td>{{ $entity->getAttribute('full_name') }}</td>
+                        <td><a href="{{ route('admin.user.show', ['user' => $entity->getKey()]) }}">{{ $entity->getAttribute('full_name') }}</a></td>
                         <td>{{ $entity->getAttribute('email') }}</td>
                         <td>{{ $entity->getAttribute('phone') }}</td>
-                        <td>{{ $entity->getAttribute('role') }}</td>
-                        <td>
-                            <div class="dropdown">
-                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{{ route('admin.user.edit') }}"
-                                    ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                                    >
-                                    <a class="dropdown-item" href="javascript:void(0);"
-                                    ><i class="bx bx-trash me-1"></i> Delete</a
-                                    >
-                                </div>
-                            </div>
-                        </td>
+                        <td>{{ $entity->getAttribute('roles')[0]->name }}</td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
+            @if ($entities->hasPages())
+                <div class="mx-3 p-1 border-top">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item first @if ($entities->currentPage() === 1) disabled @endif">
+                                <a class="page-link" href="{{ route('admin.user.list', ['page' => 1]) }}"
+                                ><i class="tf-icon bx bx-chevrons-left"></i
+                                    ></a>
+                            </li>
+                            <li class="page-item prev @if ($entities->currentPage() === 1) disabled @endif">
+                                <a class="page-link" href="{{ $entities->previousPageUrl() }}"
+                                ><i class="tf-icon bx bx-chevron-left"></i
+                                    ></a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link">{{ $entities->currentPage() }}</a>
+                            </li>
+                            <li class="page-item next @if ($entities->currentPage() === $entities->lastPage()) disabled @endif">
+                                <a class="page-link" href="{{ $entities->nextPageUrl() }}"
+                                ><i class="tf-icon bx bx-chevron-right"></i
+                                    ></a>
+                            </li>
+                            <li class="page-item last @if ($entities->currentPage() === $entities->lastPage()) disabled @endif">
+                                <a class="page-link" href="{{ route('admin.user.list', ['page' => $entities->lastPage()]) }}"
+                                ><i class="tf-icon bx bx-chevrons-right"></i
+                                    ></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            @endif
         </div>
     </div>
 @endsection
