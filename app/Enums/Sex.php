@@ -41,8 +41,8 @@ enum Sex: int
      */
     public static function getMappedNameByValue(?int $value): string
     {
-        $sexes = self::getMappedNames();
+        $values = self::getMappedNames();
 
-        return $sexes[$value] ?? 'Не вказано';
+        return $values[$value] ?? 'Не вказано';
     }
 }

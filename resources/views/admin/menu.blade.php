@@ -75,32 +75,30 @@
             </a>
         </li>
 
-{{--        @role('admin')--}}
-            <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons bx bx-layout"></i>
-                    <div data-i18n="Layouts">Візити</div>
-                </a>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-layout"></i>
+                <div data-i18n="Layouts">Візити</div>
+            </a>
 
-                <ul class="menu-sub">
-                    <li class="menu-item">
-                        <a href="layouts-without-menu.html" class="menu-link">
-                            <div data-i18n="Without menu">Переглянути</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="layouts-without-navbar.html" class="menu-link">
-                            <div data-i18n="Without navbar">Історія</div>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="layouts-container.html" class="menu-link">
-                            <div data-i18n="Container">Видалені</div>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-{{--        @endrole--}}
+            <ul class="menu-sub">
+                <li class="menu-item">
+                    <a href="layouts-without-menu.html" class="menu-link">
+                        <div data-i18n="Without menu">Переглянути</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="layouts-without-navbar.html" class="menu-link">
+                        <div data-i18n="Without navbar">Історія</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="layouts-container.html" class="menu-link">
+                        <div data-i18n="Container">Видалені</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
 
         <li class="menu-item">
             <a href="" class="menu-link">
@@ -109,24 +107,19 @@
             </a>
         </li>
 
-        <li class="menu-item">
-            <a href="" class="menu-link">
+        <li class="menu-item {{ $elementActive == 'label' ? 'active' : '' }}">
+            <a href="{{ route('admin.label.list') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Лейбли</div>
             </a>
         </li>
 
-{{--        @role('admin')--}}
-            <li class="menu-item {{ $elementActive == 'user' ? 'active' : '' }}">
-                <a href="{{ route('admin.user.list') }}" class="menu-link">
-                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                    <div data-i18n="Analytics">Користувачі</div>
-                </a>
-            </li>
-{{--        @endrole--}}
-
-
-
+        <li class="menu-item {{ $elementActive == 'user' ? 'active' : '' }}">
+            <a href="{{ route('admin.user.list') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">Користувачі</div>
+            </a>
+        </li>
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Службове</span>
         </li>

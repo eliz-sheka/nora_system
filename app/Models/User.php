@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\Roles;
 use App\Enums\Sex;
+use App\Enums\UserStatus;
 use App\Models\Traits\HasRole;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -115,5 +116,25 @@ class User extends Authenticatable
             ->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->whereIn('roles.slug', Roles::getManagementRoles());
+    }
+
+    /**
+     * @return $this
+     */
+    public function block(): self
+    {
+        $this->setAttribute('status', UserStatus::BLOCKED->value);
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function unblock(): self
+    {
+        $this->setAttribute('status', UserStatus::ACTIVE->value);
+
+        return $this;
     }
 }

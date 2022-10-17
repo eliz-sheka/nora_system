@@ -90,4 +90,18 @@ class UserController
 
         return redirect(route('admin.user.list'));
     }
+
+    public function block(User $user): RedirectResponse
+    {
+        $this->userRepository->block($user);
+
+        return redirect(route('admin.user.show', ['user' => $user]));
+    }
+
+    public function unblock(User $user): RedirectResponse
+    {
+        $this->userRepository->unblock($user);
+
+        return redirect(route('admin.user.show', ['user' => $user]));
+    }
 }

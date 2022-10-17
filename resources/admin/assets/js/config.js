@@ -7,6 +7,8 @@
 
 'use strict';
 
+// @TODO change main color to #024148
+
 // JS global variables
 let config = {
   colors: {

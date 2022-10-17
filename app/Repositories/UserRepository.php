@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\UserStatus;
 use App\Models\User;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -51,8 +52,37 @@ class UserRepository
         return $user;
     }
 
+    /**
+     * @param string $email
+     * @return bool
+     */
     public function checkIfManagementByEmail(string $email): bool
     {
         return (bool) User::query()->management()->where('users.email', $email)->first(['users.id']);
+    }
+
+    /**
+     * @param \App\Models\User $user
+     * @return bool
+     */
+    public function block(User $user): bool
+    {
+        return $this->setStatus($user, UserStatus::BLOCKED->value);
+    }
+
+    /**
+     * @param \App\Models\User $user
+     * @return bool
+     */
+    public function unblock(User $user): bool
+    {
+        return $this->setStatus($user, UserStatus::ACTIVE->value);
+    }
+
+    public function setStatus(User $user, int $status): bool
+    {
+        $user->setAttribute('status', $status);
+
+        return $user->save();
     }
 }
