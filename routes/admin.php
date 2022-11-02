@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\LabelController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,21 @@ Route::prefix('label')->name('label.')->group(function () {
 
     Route::middleware('role:admin')->group(function () {
         Route::delete('delete/{label}', [LabelController::class, 'forceDelete'])->name('delete.force');
+    });
+});
+
+Route::prefix('discount')->name('discount.')->group(function () {
+    Route::get('/', [DiscountController::class, 'list'])->name('list');
+    Route::get('deleted', [DiscountController::class, 'deletedList'])->name('list.deleted');
+    Route::get('create', [DiscountController::class, 'create'])->name('create');
+    Route::get('edit/{discount}', [DiscountController::class, 'edit'])->name('edit');
+    Route::get('{discount}', [DiscountController::class, 'show'])->name('show');
+    Route::post('/', [DiscountController::class, 'save'])->name('save');
+    Route::patch('{discount}', [DiscountController::class, 'update'])->name('update');
+    Route::delete('{discount}', [DiscountController::class, 'delete'])->name('delete');
+
+    Route::middleware('role:admin')->group(function () {
+        Route::delete('delete/{discount}', [DiscountController::class, 'forceDelete'])->name('delete.force');
     });
 });
 

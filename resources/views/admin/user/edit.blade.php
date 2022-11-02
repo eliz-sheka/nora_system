@@ -1,7 +1,7 @@
 @extends('admin.index', ['elementActive' => 'user'])
 
 @section('content')
-    <h4 class="fw-bold py-3 mb-4">Додати користувача</h4>
+    <h4 class="fw-bold py-3 mb-4">Редагувати користувача</h4>
 
     <!-- Basic Layout -->
     <div class="row">
