@@ -21,9 +21,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->unsignedSmallInteger('amount');
+            $table->unsignedTinyInteger('amount');
             $table->string('unit', 10)->default(DiscountUnits::PERCENT->value);
-            $table->unsignedSmallInteger('quantity')->nullable();
+            $table->unsignedTinyInteger('quantity')->nullable();
             $table->dateTime('active_from')->nullable();
             $table->dateTime('active_till')->nullable();
             $table->foreignIdFor(User::class, 'user_id')->nullable()->onDelete('set null');

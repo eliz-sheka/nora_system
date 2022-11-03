@@ -7,17 +7,24 @@
             <div class="d-flex align-items-center">
                 <div class="me-5">
                     <select id="defaultSelect" class="form-select">
-                        <option @if(request()->get('filter') === \App\Models\Discount::FILTER_ACTIVE || !request()->get('filter') ) selected
-                                @endif value="{{ \App\Models\Discount::FILTER_ACTIVE }}">Активні
+                        @php
+                            $active = \App\Enums\Filters::ACTIVE->value;
+                            $inactive = \App\Enums\Filters::INACTIVE->value;
+                            $deleted = \App\Enums\Filters::DELETED->value;
+                            $all = \App\Enums\Filters::ALL->value;
+
+                        @endphp
+                        <option @if(request()->get('filter') === $active || !request()->get('filter') ) selected
+                                @endif value="{{ $active }}"> {{ \App\Enums\Filters::getNameByValue($active) }}
                         </option>
-                        <option @if(request()->get('filter') === \App\Models\Discount::FILTER_INACTIVE) selected
-                                @endif value="{{ \App\Models\Discount::FILTER_INACTIVE }}">Неактивні
+                        <option @if(request()->get('filter') === $inactive) selected
+                                @endif value="{{ $inactive }}"> {{ \App\Enums\Filters::getNameByValue($inactive) }}
                         </option>
-                        <option @if(request()->get('filter') === \App\Models\Discount::FILTER_DELETED) selected
-                                @endif value="{{ \App\Models\Discount::FILTER_DELETED }}">Видалені
+                        <option @if(request()->get('filter') === $deleted) selected
+                                @endif value="{{ $deleted }}"> {{ \App\Enums\Filters::getNameByValue($deleted) }}
                         </option>
-                        <option @if(request()->get('filter') === \App\Models\Discount::FILTER_ALL) selected
-                                @endif value="{{ \App\Models\Discount::FILTER_ALL }}">Всі
+                        <option @if(request()->get('filter') === $all) selected
+                                @endif value="{{ $all }}"> {{ \App\Enums\Filters::getNameByValue($all) }}
                         </option>
                     </select>
                 </div>

@@ -69,7 +69,7 @@
     <ul class="menu-inner py-1">
 
         <li class="menu-item {{ $elementActive == 'visit' ? 'active' : '' }}">
-            <a href="" class="menu-link">
+            <a href="{{ route('admin.visit.list') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Візити</div>
             </a>
@@ -101,7 +101,7 @@
         </li>
 
         <li class="menu-item {{ $elementActive == 'discount' ? 'active' : '' }}">
-            <a href="{{ route('admin.discount.list', ['status' => \App\Models\Discount::FILTER_ACTIVE]) }}"
+            <a href="{{ route('admin.discount.list', ['status' => \App\Enums\Filters::ACTIVE]) }}"
                class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="Analytics">Знижки</div>
