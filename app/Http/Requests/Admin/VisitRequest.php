@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests\Admin;
 
 use App\Enums\DiscountUnits;
+use App\Enums\PaymentMethods;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,14 +26,23 @@ class VisitRequest extends FormRequest
                 'date.from' => ['nullable', 'date', 'date_format:Y-m-d',],
                 'date.to' => ['nullable', 'date', 'before: tomorrow', 'after:active_from',],
             ]);
-        } elseif (Request::METHOD_POST === $currentMethod) {
-            $rules= array_merge($rules, [
-                'amount' => ['required', 'int', 'min:1',],
-                'unit' => ['required', 'string', Rule::in(DiscountUnits::getValues())],
-                'quantity' => ['nullable', 'int', 'min:1', 'max:1000'],
-                'active_from' => ['nullable', 'date', 'date_format:Y-m-d',],
-                'active_till' => ['nullable', 'date', 'after:yesterday', 'after:active_from', 'date_format:Y-m-d',],
-            ]);
+        } else {
+            $rules = [
+                'label' => ['required', 'exists:labels,id'],
+                'discount' => ['nullable', 'exists:discounts,id'],
+                'note' => ['nullable', 'string', 'max:500'],
+                'start_time' => ['nullable', 'date_format:Y-m-d',],
+                'end_time' => ['nullable', 'date_format:Y-m-d', 'after:active_from',],
+                'is_paid' => ['nullable', 'boolean'],
+                'paid_amount' => ['nullable', 'numeric'],
+                'payment_method' => ['nullable', Rule::in(PaymentMethods::getValues())],
+            ];
+
+            if (Request::METHOD_POST === $currentMethod) {
+                $rules = array_merge($rules, [
+                    'visitors_number' => ['required', 'int', 'min:1', 'max:50'],
+                ]);
+            }
         }
 
         return $rules;

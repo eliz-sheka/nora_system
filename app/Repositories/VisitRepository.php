@@ -3,6 +3,9 @@
 namespace App\Repositories;
 
 use App\Enums\Filters;
+use App\Helpers\SettingsHelper;
+use App\Models\Discount;
+use App\Models\Label;
 use App\Models\Visit;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
@@ -20,18 +23,47 @@ class VisitRepository
         return $this->getQueryWithFilters($filter, $filterDate)
             ->select(['label_id', 'start_time', DB::raw('count(id) as visitors_amount')])
             ->with('label')
+            ->whereDate('start_time', now())
             ->groupBy(['label_id', 'start_time'])
+            ->orderBy('start_time', 'desc')
             ->paginate();
     }
 
     /**
      * @param array $data
-     * @return \App\Models\Visit
+     * @return array
      */
-    public function create(array $data): Visit
+    public function create(array $data): array
     {
-        /** @var Visit */
-        return Visit::query()->create($data);
+        /** @var Label $label */
+        $label = Label::query()->whereKey($data['label'])->firstOrFail();
+
+        /** @var Discount $discount */
+        $discount = Discount::query()->whereKey($data['discount'])->firstOrFail();
+
+        unset($data['label']);
+        unset($data['discount']);
+
+        $data['uah_per_hour'] = SettingsHelper::getPricePerHour();
+        $data['label_name'] = $label->getAttribute('name');
+        $data['discount_amount'] = $discount->getAttribute('amount');
+        $data['discount_unit'] = $discount->getAttribute('unit');
+
+        return DB::transaction(function () use ($data, $label, $discount) {
+            $visits = [];
+
+            // TODO check
+            for ($i = 1; $i > $data['visitors_amount']; $i++) {
+                /** @var Visit $visit */
+                $visit = Visit::query()->create($data);
+                $visit->label()->associate($label);
+                $visit->discount()->associate($discount);
+
+                $visits[] = $visit;
+            }
+
+            return $visits;
+        });
     }
 
     /**

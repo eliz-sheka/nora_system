@@ -44,15 +44,17 @@
                 </thead>
                 <tbody>
                 @forelse($entities as $entity)
-                    <tr @if($entity->getAttribute('deleted_at') || $entity->getAttribute('active_till') < now()) class="table-secondary" @endif>
+                    <tr @if($entity->getAttribute('deleted_at') || ($entity->getAttribute('active_till') != NULL && $entity->getAttribute('active_till') < now())) class="table-secondary" @endif>
                         <td>
                             <a href="{{ route('admin.discount.show', ['discount' => $entity->getKey()]) }}">{{ $entity->getAttribute('name') }}</a>
                         </td>
                         <td>{{ $entity->getAttribute('amount').' '.$entity->getAttribute('unit') }}</td>
-                        <td>{{ $entity->getAttribute('quantity') }}</td>
+                        <td>{{ $entity->getAttribute('quantity') ?? '-' }}</td>
                         <td>{{ $entity->formatDate($entity->getAttribute('active_from'))}}</td>
                         @php
-                            $color = $entity->getAttribute('active_till') > now() ? 'success' : 'secondary';
+                            $color = ($entity->getAttribute('active_till') != NULL && $entity->getAttribute('active_till') > now())
+                                ? 'success'
+                                : 'secondary';
                         @endphp
                         <td><span
                                 class="badge bg-label-{{$color}}">{{ $entity->formatDate($entity->getAttribute('active_till')) }}</span>

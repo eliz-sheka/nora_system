@@ -17,7 +17,7 @@ class Visit extends Model
         'start_time',
         'end_time',
         'uah_per_hour',
-        'amount_paid',
+        'paid_amount', // Total paid amount. May be different from calculated value
         'label_name',
         'discount_amount',
         'discount_unit',

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -54,5 +55,20 @@ class Discount extends Model
         }
 
         return Carbon::createFromDate($date)->format($format);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query): Builder
+    {
+        return $query->where(function ($q) {
+                $q->where('active_till', '>', now())
+                    ->orWhereNull('active_till');
+            })
+            ->where(function ($q) {
+                $q->where('quantity', '>', 0)
+                    ->orWhereNull('quantity');
+            });
     }
 }

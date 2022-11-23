@@ -110,10 +110,9 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeManagement(): Builder
+    public function scopeManagement($query): Builder
     {
-        return User::query()
-            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+        return $query->join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->whereIn('roles.slug', Roles::getManagementRoles());
     }

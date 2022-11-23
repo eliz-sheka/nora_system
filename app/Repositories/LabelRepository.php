@@ -50,4 +50,15 @@ class LabelRepository
     {
         return $force ? $label->forceDelete() : $label->delete();
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAvailable(): Collection
+    {
+        return Label::query()
+            ->available()
+            ->select(['labels.id', 'labels.name'])
+            ->get();
+    }
 }

@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\PaymentMethods;
 use App\Http\Requests\Admin\VisitRequest;
+use App\Models\Visit;
+use App\Repositories\DiscountRepository;
+use App\Repositories\LabelRepository;
 use App\Repositories\VisitRepository;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class VisitController
@@ -33,9 +38,18 @@ class VisitController
         );
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\View
+     */
     public function create(): View
     {
-        return \view('admin.visit.create');
+        $data = [
+            'paymentMethods' => PaymentMethods::getMappedNames(),
+            'discounts' => (new DiscountRepository)->getFormatted(),
+            'labels' => (new LabelRepository)->getAvailable(),
+        ];
+
+        return \view('admin.visit.create', $data);
     }
 
     public function show(Visit $visit): View

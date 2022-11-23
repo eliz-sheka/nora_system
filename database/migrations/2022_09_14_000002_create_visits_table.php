@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('uah_per_hour')->nullable();
             $table->unsignedTinyInteger('discount_amount')->nullable();
             $table->string('discount_unit', 10)->nullable();
-            $table->string('amount_paid')->nullable();
+            $table->string('paid_amount')->nullable();
             $table->string('note')->nullable();
             $table->boolean('is_paid')->default(false);
             $table->unsignedTinyInteger('payment_method')->nullable();

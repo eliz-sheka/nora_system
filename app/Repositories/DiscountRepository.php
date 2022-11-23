@@ -7,6 +7,7 @@ namespace App\Repositories;
 use App\Models\Discount;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class DiscountRepository
 {
@@ -25,8 +26,7 @@ class DiscountRepository
         }
 
         return Discount::query()
-            ->where('active_till', '>', now())
-            ->orWhereNull('active_till')
+            ->active()
             ->get();
     }
 
@@ -47,5 +47,16 @@ class DiscountRepository
     public function update(Discount $discount, array $data): bool
     {
         return $discount->update($data);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getFormatted(): Collection
+    {
+        return Discount::query()
+            ->active()
+            ->select('id', DB::raw("concat(name, ' ', amount, unit) as name"))
+            ->get();
     }
 }
