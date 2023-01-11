@@ -13,6 +13,7 @@
                     <th>Фігурка</th>
                     <th>Кількість людей</th>
                     <th>Час початку</th>
+                    <th>Дата</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -28,6 +29,7 @@
                         </td>
                         <td>{{ $entity->visitors_amount }}</td>
                         <td>{{ $entity->getAttribute('formatted_start_time') }}</td>
+                        <td>{{ $entity->formatDateTime($entity->getAttribute('start_time'), 'd-m-Y') }}</td>
                     </tr>
                 @empty
                     <tr><td colspan="3" class="text-center">Ще немає візитів</td></tr>

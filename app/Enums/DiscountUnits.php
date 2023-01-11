@@ -5,7 +5,7 @@ namespace App\Enums;
 enum DiscountUnits: string
 {
     case PERCENT = '%';
-    case UAH = 'uah';
+    case UAH = 'грн';
 
     /**
      * @return array

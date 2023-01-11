@@ -46,7 +46,7 @@ class DiscountController
 
     public function edit(Discount $discount): View
     {
-        return \view('admin.discount.edit', ['entity' => $discount, 'units' => DiscountUnits::getValues()]);
+        return \view('admin.discount.edit', ['entity' => $discount]);
     }
 
     /**

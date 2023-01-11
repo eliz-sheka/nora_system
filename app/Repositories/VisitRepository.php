@@ -9,6 +9,7 @@ use App\Models\Label;
 use App\Models\Visit;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class VisitRepository
@@ -20,11 +21,11 @@ class VisitRepository
      */
     public function groupListPaginate(string $filter = null, array $filterDate = null): LengthAwarePaginator
     {
-        return $this->getQueryWithFilters($filter, $filterDate)
-            ->select(['label_id', 'start_time', DB::raw('count(id) as visitors_amount')])
+        return Visit::query()
+            ->select(['label_id', DB::raw("count(id) as visitors_amount, DATE_FORMAT(start_time, '%Y-%c-%d %H:%i') as start_time")])
             ->with('label')
             ->whereDate('start_time', now())
-            ->groupBy(['label_id', 'start_time'])
+            ->groupBy(['label_id', DB::raw("DATE_FORMAT(start_time, '%Y-%c-%d %H:%i')")])
             ->orderBy('start_time', 'desc')
             ->paginate();
     }
@@ -67,23 +68,38 @@ class VisitRepository
     }
 
     /**
-     * @param \App\Models\Visit $label
+     * @param \App\Models\Visit $visit
      * @param array $data
      * @return bool
      */
-    public function update(Visit $label, array $data): bool
+    public function update(Visit $visit, array $data): bool
     {
-        return $label->update($data);
+        // TODO update label and discount
+
+        return $visit->update($data);
     }
 
     /**
-     * @param \App\Models\Visit $label
+     * @param \App\Models\Visit $visit
      * @param bool $force
      * @return bool
      */
-    public function delete(Visit $label, bool $force = false): bool
+    public function delete(Visit $visit, bool $force = false): bool
     {
-        return $force ? $label->forceDelete() : $label->delete();
+        return $force ? $visit->forceDelete() : $visit->delete();
+    }
+
+    /**
+     * @param array $ids
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getMany(array $ids): Collection
+    {
+        return Visit::query()->with(['label', 'discount'])->whereKey($ids)->get();
+    }
+
+    public function close(): array
+    {
     }
 
     /**

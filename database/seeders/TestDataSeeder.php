@@ -2,23 +2,23 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class TestDataSeeder extends Seeder
 {
+    /**
+     * @return void
+     */
     public function run(): void
     {
         $this->call([
+            SettingsSeeder::class,
             RolesTableSeeder::class,
             UsersTableSeeder::class,
+            TestUserSeeder::class,
+            TestLabelSeeder::class,
+            TestDiscountSeeder::class,
+            TestVisitSeeder::class,
         ]);
-
-        $users = User::factory(4)->create();
-
-        /** @var User $user */
-        foreach ($users as $user) {
-            $user->assignManagerRole();
-        }
     }
 }

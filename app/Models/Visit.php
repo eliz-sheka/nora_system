@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Visit extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     protected $table = 'visits';
 
@@ -43,15 +44,15 @@ class Visit extends Model
 
     public function getFormattedStartTimeAttribute(): string
     {
-        return $this->formatDate($this->getAttribute('start_time'), 'H:i d-m-Y');
+        return $this->formatDateTime($this->getAttribute('start_time'), 'H:i');
     }
 
     public function getFormattedEndTimeAttribute(): string
     {
-        return $this->formatDate($this->getAttribute('end_time'), 'H:i d-m-Y');
+        return $this->formatDateTime($this->getAttribute('end_time'), 'H:i');
     }
 
-    public function formatDate($date, string $format = 'H:i d-m-Y'): string
+    public function formatDateTime($date, string $format = 'H:i d-m-Y'): string
     {
         return (new Carbon($date))->format($format);
     }
