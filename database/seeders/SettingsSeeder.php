@@ -12,6 +12,6 @@ class SettingsSeeder extends Seeder
      */
     public function run(): void
     {
-        Settings::query()->create(['data' => ['uah_per_hour' => 60]]);
+        Settings::query()->create(['data' => json_encode(['uah_per_hour' => 60])]);
     }
 }

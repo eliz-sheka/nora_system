@@ -22,11 +22,14 @@ class VisitRepository
     public function groupListPaginate(string $filter = null, array $filterDate = null): LengthAwarePaginator
     {
         return Visit::query()
-            ->select(['label_id', DB::raw("count(id) as visitors_amount, DATE_FORMAT(start_time, '%Y-%c-%d %H:%i') as start_time")])
-            ->with('label')
-            ->whereDate('start_time', now())
-            ->groupBy(['label_id', DB::raw("DATE_FORMAT(start_time, '%Y-%c-%d %H:%i')")])
-            ->orderBy('start_time', 'desc')
+            ->select(['visits.id', 'visits.start_time', DB::raw('count(visitors.id) as visitors_amount'), 'labels.name as label_name'])
+            ->with(['label'])
+            ->join('visitors', 'visitors.visit_id', '=', 'visits.id')
+            ->join('labels', 'visits.label_id', '=', 'labels.id')
+            ->whereDate('visits.start_time', now())
+            ->where('is_active', true)
+            ->groupBy('visits.id')
+            ->orderBy('visits.start_time', 'desc')
             ->paginate();
     }
 
@@ -38,32 +41,41 @@ class VisitRepository
     {
         /** @var Label $label */
         $label = Label::query()->whereKey($data['label'])->firstOrFail();
+        $discount = null;
 
-        /** @var Discount $discount */
-        $discount = Discount::query()->whereKey($data['discount'])->firstOrFail();
+        if ($data['discount']) {
+            /** @var Discount $discount */
+            $discount = Discount::query()->whereKey($data['discount'])->firstOrFail();
+
+            $data['discount_amount'] = $discount->getAttribute('amount');
+            $data['discount_unit'] = $discount->getAttribute('unit');
+        }
 
         unset($data['label']);
         unset($data['discount']);
 
         $data['uah_per_hour'] = SettingsHelper::getPricePerHour();
         $data['label_name'] = $label->getAttribute('name');
-        $data['discount_amount'] = $discount->getAttribute('amount');
-        $data['discount_unit'] = $discount->getAttribute('unit');
+        $data['start_time'] = now();
 
         return DB::transaction(function () use ($data, $label, $discount) {
-            $visits = [];
+            $visitsData = [];
 
-            // TODO check
-            for ($i = 1; $i > $data['visitors_amount']; $i++) {
-                /** @var Visit $visit */
-                $visit = Visit::query()->create($data);
-                $visit->label()->associate($label);
-                $visit->discount()->associate($discount);
-
-                $visits[] = $visit;
+            for ($i = 1; $i <= $data['visitors_number']; $i++) {
+                $visitsData[] = $data;
             }
 
-            return $visits;
+            $visits = $label->visit()->createMany($visitsData);
+
+            foreach ($visits as $visit) {
+                $visit->label()->associate($label);
+
+                if ($discount) {
+                    $visit->discount()->associate($discount);
+                }
+            }
+
+            return $visits->toArray();
         });
     }
 
@@ -100,6 +112,7 @@ class VisitRepository
 
     public function close(): array
     {
+        return [];
     }
 
     /**

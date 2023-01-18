@@ -7,29 +7,36 @@
             <a href="{{ route('admin.visit.create') }}" class="btn rounded-pill btn-primary">Додати візит</a>
         </div>
         <div class="table-responsive text-nowrap">
-            <table class="table table-borderless">
+            <table class="table table-borderless table-hover">
                 <thead>
                 <tr>
                     <th>Фігурка</th>
                     <th>Кількість людей</th>
                     <th>Час початку</th>
                     <th>Дата</th>
+                    <th>Дії</th>
                 </tr>
                 </thead>
                 <tbody>
                 @forelse($entities as $entity)
                     <tr>
+
                         <td>
                             @if($entity->getAttribute('note'))
                                 <i class="bi bi-card-text"></i>
                             @endif
-{{--                            <a href="{{ route('admin.visit.show', ['visit' => $entity->getKey()]) }}">--}}
-                                {{ $entity->getAttribute('label')->name }}
-{{--                            </a>--}}
+
+                                {{ $entity->getAttribute('label')?->name ?? $entity->label_name }}
+
                         </td>
                         <td>{{ $entity->visitors_amount }}</td>
                         <td>{{ $entity->getAttribute('formatted_start_time') }}</td>
                         <td>{{ $entity->formatDateTime($entity->getAttribute('start_time'), 'd-m-Y') }}</td>
+                        <td>
+                            <a href="{{ route('admin.visit.show', ['visit' => $entity->getKey()]) }}">
+                                <i class="menu-icon tf-icons bx bxs-hand-up"></i>
+                            </a>
+                        </td>
                     </tr>
                 @empty
                     <tr><td colspan="3" class="text-center">Ще немає візитів</td></tr>

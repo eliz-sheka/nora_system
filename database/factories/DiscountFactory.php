@@ -16,10 +16,10 @@ class DiscountFactory extends Factory
         $amount = [10, 20, 30, 40, 50];
 
         return [
-            'name' => ucfirst(fake()->words(2)),
+            'name' => ucfirst(fake()->sentence(3)),
             'description' => ucfirst(fake()->sentence),
             'amount' => $amount[rand(0, count($amount) - 1)],
-            'unit' => $units[rand(0,count($units) - 1)],
+            'unit' => $units[rand(0, count($units) - 1)],
             'quantity' => null,
             'active_from' => null,
             'active_till' => null,

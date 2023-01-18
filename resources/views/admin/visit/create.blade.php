@@ -15,7 +15,7 @@
                             <select name="label" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" required>
                                 <option>--- Обрати фігурку ---</option>
                                 @foreach($labels as $label)
-                                    <option @if(old('label') === $label->getKey()) selected @endif value="{{ $label->getKey() }}">{{ $label->getAttribute('name') }}</option>
+                                    <option @if(old('label') === (string) $label->getKey()) selected @endif value="{{ $label->getKey() }}">{{ $label->getAttribute('name') }}</option>
                                 @endforeach
                             </select>
 
@@ -38,10 +38,10 @@
 
                         <div class="mb-3">
                             <label for="exampleFormControlSelect1" class="form-label">Знижка</label>
-                            <select name="discount" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example" required>
-                                <option>--- Обрати знижку ---</option>
+                            <select name="discount" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
+                                <option value="">--- Обрати знижку ---</option>
                                 @foreach($discounts as $discount)
-                                    <option @if(old('discount') === $discount->getKey()) selected @endif value="{{ $discount->getKey() }}">{{ $discount->getAttribute('name') }}</option>
+                                    <option @if(old('discount') === (string) $discount->getKey()) selected @endif value="{{ $discount->getKey() }}">{{ $discount->getAttribute('name') }}</option>
                                 @endforeach
                             </select>
                             <div class="form-text">Знижка застосується для усіх відвідувачів, вказаних у цьому візиті</div>
@@ -118,7 +118,7 @@
                         <div class="mb-3">
                             <label for="exampleFormControlSelect1" class="form-label">Метод оплати</label>
                             <select name="payment_type" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
-                                <option>--- Обрати метод оплати ---</option>
+                                <option value="">--- Обрати метод оплати ---</option>
                                 @foreach($paymentMethods as $key => $paymentMethod)
                                     <option @if(old('payment_method') === $key) selected @endif value="{{ $key }}">{{ $paymentMethod }}</option>
                                 @endforeach
