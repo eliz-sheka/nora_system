@@ -36,8 +36,12 @@ class Visit extends Model
         return $this->formatDateTime($this->getAttribute('start_time'), 'H:i');
     }
 
-    public function formatDateTime($date, string $format = 'H:i d-m-Y'): string
+    public function formatDateTime($date = null, string $format = 'H:i d-m-Y'): string
     {
+        if (!$date) {
+            return '-';
+        }
+
         return (new Carbon($date))->format($format);
     }
 }

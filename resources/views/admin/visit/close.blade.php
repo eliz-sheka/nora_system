@@ -11,9 +11,11 @@
                 <div class="d-flex align-items-center">
                     <a href="{{ route('admin.visit.edit', ['visit' => $entity->getKey()]) }}" class="card-link">Редагувати</a>
                     <div class="ms-3 float-end">
-                        <a id="closeLink" class="btn rounded-pill btn-primary" href="{{ route('admin.visit.close', ['visit' => $entity->getKey()]) }}">
-                            Закрити <span id="numberToClose" class="badge bg-white text-primary"></span>
-                        </a>
+                        <form class="d-inline-block ml-2" method="POST" action="{{ route('admin.visit.close', ['visit' => $entity->getKey()]) }}">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="btn rounded-pill btn-primary">Закрити <span id="numberToClose" class="badge bg-white text-primary"></span></button>
+                        </form>
                     </div>
                     @role('admin')
                     <div class="ms-3 float-end">
@@ -72,9 +74,9 @@
                                     @endif
                                 </td>
                                 <td>
-{{--                                    <a href="{{ route('admin.visit.show', ['visit' => $entity->getKey()]) }}">--}}
-                                        <i class="bi bi-pencil fs-4"></i>
-{{--                                    </a>--}}
+                                    {{--                                    <a href="{{ route('admin.visit.show', ['visit' => $entity->getKey()]) }}">--}}
+                                    <i class="bi bi-pencil fs-4"></i>
+                                    {{--                                    </a>--}}
                                 </td>
                             </tr>
                         @endforeach
@@ -100,16 +102,5 @@
             const newLength = $('.visitor:checked').length;
             $visitorsNumberBadge.text(newLength ? newLength : visitorsNumber);
         });
-
-        // TODO add ids to href
-        // $('a#closeLink').click(function (a) {
-        //     a.prepend();
-        //
-        //     const url = new URL($(this).attr('href'));
-        //     const params = url.searchParams;
-        //     //Add a second foo parameter.
-        //     params.append('foo', 4);
-        //
-        // });
     </script>
 @endpush

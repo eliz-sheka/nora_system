@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CloseVisitsRequest extends FormRequest
 {
@@ -12,7 +13,12 @@ class CloseVisitsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id.*' => ['required', 'exists:visits,id']
+            'id.*' => [
+                'nullable',
+                Rule::exists('visitors')->where(function ($query) {
+                    return $query->where('visit_id', $this->get('visit'));
+                }),
+            ]
         ];
     }
 }

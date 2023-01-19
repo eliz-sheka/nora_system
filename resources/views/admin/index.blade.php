@@ -44,6 +44,7 @@
 
     <link rel="stylesheet" href="{{ asset('assets/assets/vendor/fonts/boxicons.css') }}" />
 
+    <link href="{{ asset('assets/css/common.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/admin/css/main.min.css') }}" rel="stylesheet" />
 
 
@@ -92,6 +93,9 @@
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
 <!-- / Layout wrapper -->
+
+{{--TODO replace with file--}}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
 <script src="{{ asset('assets/js/common.min.js') }}"></script>
 <script src="{{ asset('assets/admin/js/main.min.js') }}"></script>

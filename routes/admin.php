@@ -63,7 +63,9 @@ Route::prefix('visit')->name('visit.')->group(function () {
     Route::get('edit/{visit}', [VisitController::class, 'edit'])->name('edit');
     Route::get('{visit}', [VisitController::class, 'show'])->name('show');
     Route::get('related', [VisitController::class, 'showRelated'])->name('show.related');
+    Route::get('close/{visit}', [VisitController::class, 'showClose'])->name('show.close');
     Route::post('/', [VisitController::class, 'save'])->name('save');
+    Route::patch('close/{visit}', [VisitController::class, 'close'])->name('close');
     Route::patch('{visit}', [VisitController::class, 'update'])->name('update');
     Route::delete('{visit}', [VisitController::class, 'delete'])->name('delete');
 

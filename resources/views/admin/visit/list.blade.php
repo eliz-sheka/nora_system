@@ -25,16 +25,14 @@
                             @if($entity->getAttribute('note'))
                                 <i class="bi bi-card-text"></i>
                             @endif
-
-                                {{ $entity->getAttribute('label')?->name ?? $entity->label_name }}
-
+                            {{ $entity->getAttribute('label')?->name ?? $entity->label_name }}
                         </td>
                         <td>{{ $entity->visitors_amount }}</td>
                         <td>{{ $entity->getAttribute('formatted_start_time') }}</td>
                         <td>{{ $entity->formatDateTime($entity->getAttribute('start_time'), 'd-m-Y') }}</td>
                         <td>
                             <a href="{{ route('admin.visit.show', ['visit' => $entity->getKey()]) }}">
-                                <i class="menu-icon tf-icons bx bxs-hand-up"></i>
+                                <i class="bi bi-eye fs-3"></i>
                             </a>
                         </td>
                     </tr>

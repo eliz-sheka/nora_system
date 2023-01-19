@@ -56,8 +56,7 @@
                                 ? 'success'
                                 : 'secondary';
                         @endphp
-                        <td><span
-                                class="badge bg-label-{{$color}}">{{ $entity->formatDate($entity->getAttribute('active_till')) }}</span>
+                        <td><span class="badge bg-label-{{$color}}">{{ $entity->formatDate($entity->getAttribute('active_till')) }}</span>
                         </td>
                     </tr>
                 @empty

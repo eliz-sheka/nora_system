@@ -60,7 +60,7 @@ class VisitController
      */
     public function show(Visit $visit): View
     {
-        return \view('admin.visit.show', ['entity' => $visit]);
+        return \view('admin.visit.show', ['entity' => $visit->load('visitors')]);
     }
 
     /**
@@ -104,6 +104,13 @@ class VisitController
         $this->visitRepository->update($visit, $request->validated());
 
         return redirect(route('admin.visit.list'));
+    }
+
+    public function showClose(CloseVisitsRequest $request): RedirectResponse
+    {
+        $visits = $this->visitRepository->close();
+
+        return redirect(route('admin.visit.related'), ['entities' => $visits]);
     }
 
     public function close(CloseVisitsRequest $request): RedirectResponse
