@@ -27,7 +27,7 @@ class VisitRepository
             ->join('visitors', 'visitors.visit_id', '=', 'visits.id')
             ->join('labels', 'visits.label_id', '=', 'labels.id')
             ->whereDate('visits.start_time', now())
-            ->where('is_active', true)
+            ->where('visits.is_active', true)
             ->groupBy('visits.id')
             ->orderBy('visits.start_time', 'desc')
             ->paginate();
@@ -59,23 +59,25 @@ class VisitRepository
         $data['start_time'] = now();
 
         return DB::transaction(function () use ($data, $label, $discount) {
-            $visitsData = [];
+            /** @var Visit $visit */
+            $visit = $label->visit()->create(['start_time' => $data['start_time'], 'note' => $data['note']]);
+
+            $visitorsData = [];
+            // Do not assign note for visit to all visitors
+            unset($data['note']);
 
             for ($i = 1; $i <= $data['visitors_number']; $i++) {
-                $visitsData[] = $data;
+                $visitorsData[] = $data;
             }
+            $visitors = $visit->visitors()->createMany($visitorsData);
 
-            $visits = $label->visit()->createMany($visitsData);
-
-            foreach ($visits as $visit) {
-                $visit->label()->associate($label);
-
+            foreach ($visitors as $visitor) {
                 if ($discount) {
-                    $visit->discount()->associate($discount);
+                    $visitor->discount()->associate($discount);
                 }
             }
 
-            return $visits->toArray();
+            return $visit->toArray();
         });
     }
 

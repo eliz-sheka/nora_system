@@ -9,8 +9,10 @@
                 </div>
 
                 <div class="d-flex align-items-center">
+                    {{-- TODO create the page to have an ability to edit visitors (add note and discount to each) and common visit data (discount to all, note) --}}
                     <a href="{{ route('admin.visit.edit', ['visit' => $entity->getKey()]) }}" class="card-link">Редагувати</a>
                     <div class="ms-3 float-end">
+                        {{-- TODO Add modal with all related data for payment --}}
                         <a id="closeLink" class="btn rounded-pill btn-primary" href="{{ route('admin.visit.close', ['visit' => $entity->getKey()]) }}">
                             Закрити <span id="numberToClose" class="badge bg-white text-primary"></span>
                         </a>
@@ -36,14 +38,13 @@
                             <th>Час початку</th>
                             <th>Час закінчення</th>
                             <th>Знижка</th>
-                            <th>Дії</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($entity->getAttribute('visitors') as $key => $visitor)
                             <tr>
                                 <td>
-                                    <div class="form-check form-check-inline mt-3">
+                                    <div class="form-check form-check-inline m-0 fs-3">
                                         <input
                                             class="form-check-input visitor"
                                             type="checkbox"
@@ -71,11 +72,6 @@
                                         <span class="badge bg-label-secondary">-</span>
                                     @endif
                                 </td>
-                                <td>
-{{--                                    <a href="{{ route('admin.visit.show', ['visit' => $entity->getKey()]) }}">--}}
-                                        <i class="bi bi-pencil fs-4"></i>
-{{--                                    </a>--}}
-                                </td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -100,16 +96,5 @@
             const newLength = $('.visitor:checked').length;
             $visitorsNumberBadge.text(newLength ? newLength : visitorsNumber);
         });
-
-        // TODO add ids to href
-        // $('a#closeLink').click(function (a) {
-        //     a.prepend();
-        //
-        //     const url = new URL($(this).attr('href'));
-        //     const params = url.searchParams;
-        //     //Add a second foo parameter.
-        //     params.append('foo', 4);
-        //
-        // });
     </script>
 @endpush

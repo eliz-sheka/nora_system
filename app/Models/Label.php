@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Label extends Model
 {
@@ -29,9 +30,14 @@ class Label extends Model
      */
     public function scopeAvailable($query): Builder
     {
-        return $query->leftJoin('visits', 'visits.label_id', 'labels.id')
-            ->whereNotNull('visits.end_time')
-            ->orWhereNull('visits.id')
+        return $query->leftJoin('visits', function ($q) {
+            $q->on('visits.label_id', 'labels.id')
+                ->where(DB::raw('DATE(visits.start_time)'), DB::raw('DATE(NOW())'));
+            })
+            ->where(function ($q) {
+                $q->where('visits.is_active', false)
+                    ->orWhereNull('visits.is_active');
+            })
             ->distinct();
     }
 }

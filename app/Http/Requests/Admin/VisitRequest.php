@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Admin;
 
-use App\Enums\DiscountUnits;
 use App\Enums\PaymentMethods;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -31,8 +30,8 @@ class VisitRequest extends FormRequest
                 'label' => ['required', 'exists:labels,id'],
                 'discount' => ['nullable', 'exists:discounts,id'],
                 'note' => ['nullable', 'string', 'max:500'],
-                'start_time' => ['nullable', 'date_format:Y-m-d',],
-                'end_time' => ['nullable', 'date_format:Y-m-d', 'after:active_from',],
+                'start_time' => ['nullable', 'date',],
+                'end_time' => ['nullable', 'date', 'after:active_from',],
                 'is_paid' => ['nullable', 'boolean'],
                 'paid_amount' => ['nullable', 'numeric'],
                 'payment_method' => ['nullable', Rule::in(PaymentMethods::getValues())],
@@ -40,7 +39,7 @@ class VisitRequest extends FormRequest
 
             if (Request::METHOD_POST === $currentMethod) {
                 $rules = array_merge($rules, [
-                    'visitors_number' => ['required', 'int', 'min:1', 'max:50'],
+                    'visitors_number' => ['required', 'int', 'min:1', 'max:30'],
                 ]);
             }
         }
