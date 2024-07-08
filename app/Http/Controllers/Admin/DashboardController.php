@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\View\View;
+use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
-    public function index(): View
+    public function index(): \Inertia\Response
     {
-        return \view('admin.index');
+        return Inertia::render('AdminPanel/Dashboard', []);
     }
 }

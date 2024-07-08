@@ -56,7 +56,7 @@ Route::prefix('discount')->name('discount.')->group(function () {
     });
 });
 
-Route::prefix('visit')->name('visit.')->group(function () {
+Route::prefix('visits')->name('visits.')->group(function () {
     Route::get('/', [VisitController::class, 'list'])->name('list');
     Route::get('deleted', [VisitController::class, 'deletedList'])->name('list.deleted');
     Route::get('create', [VisitController::class, 'create'])->name('create');

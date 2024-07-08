@@ -1,8 +1,6 @@
-FROM php:8.1-fpm
+FROM php:8.2-fpm
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
-    && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+RUN curl -sL https://deb.nodesource.com/setup_20.x | bash - \
     && apt update \
     && apt install -y --no-install-recommends \
         default-mysql-client \
@@ -15,7 +13,6 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
         nodejs \
         unzip \
         vim \
-        yarn \
         zip \
         zlib1g-dev \
     && docker-php-ext-install bcmath exif gd pdo_mysql pcntl soap sockets zip > /dev/null \
@@ -23,7 +20,6 @@ RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && docker-php-ext-enable imagick xdebug \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && apt clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && npm install --global gulp-cli
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/nora
