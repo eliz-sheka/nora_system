@@ -13,6 +13,7 @@ use App\Repositories\VisitRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class VisitController
 {
@@ -26,17 +27,14 @@ class VisitController
         $this->visitRepository = new VisitRepository();
     }
 
-    /**
-     * @param \App\Http\Requests\Admin\VisitRequest $request
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function list(VisitRequest $request): View
+    public function list(VisitRequest $request): \Inertia\Response
     {
-        return \view(
-            'admin.visit.list',
+        return Inertia::render(
+            'admin-panel/visits/VisitsList',
             [
-                'entities' => $this->visitRepository->groupListPaginate(),
-            ]
+                'visits' => $this->visitRepository->list(),
+                'labels' => (new LabelRepository)->list()
+            ],
         );
     }
 

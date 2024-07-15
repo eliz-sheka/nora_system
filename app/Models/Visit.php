@@ -26,6 +26,11 @@ class Visit extends Model
         return $this->belongsTo(Label::class, 'label_id', 'id', 'label');
     }
 
+    public function visitType(): BelongsTo
+    {
+        return $this->belongsTo(VisitType::class, 'visit_type_id', 'id', 'visitType');
+    }
+
     public function visitors(): HasMany
     {
         return $this->hasMany(Visitor::class, 'visit_id', 'id',);

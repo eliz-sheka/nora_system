@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('paid_amount')->nullable();
             $table->string('note')->nullable();
             $table->boolean('is_paid')->default(false);
+            $table->boolean('check_exists')->default(false);
             $table->unsignedTinyInteger('payment_method')->nullable();
             $table->dateTime('start_time');
             $table->dateTime('end_time')->nullable();

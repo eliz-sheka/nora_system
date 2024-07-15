@@ -13,8 +13,8 @@ class TestDiscountSeeder extends Seeder
     public function run(): void
     {
         Discount::factory(2)->create();
-        Discount::factory(2)->withDateActive()->create();
-        Discount::factory(2)->withDateInactive()->create();
-        Discount::factory(2)->withQuantity()->create();
+//        Discount::factory(2)->withDateActive()->create();
+//        Discount::factory(2)->withDateInactive()->create();
+//        Discount::factory(2)->withQuantity()->create();
     }
 }

@@ -23,6 +23,7 @@ class Visitor extends Model
         'is_paid',
         'payment_method',
         'note',
+        'check_exists',
     ];
 
     public function discount(): BelongsTo

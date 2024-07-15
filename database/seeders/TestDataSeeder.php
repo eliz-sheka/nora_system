@@ -18,6 +18,7 @@ class TestDataSeeder extends Seeder
             TestUserSeeder::class,
             TestLabelSeeder::class,
             TestDiscountSeeder::class,
+            TestVisitTypeSeeder::class,
             TestVisitSeeder::class,
         ]);
     }

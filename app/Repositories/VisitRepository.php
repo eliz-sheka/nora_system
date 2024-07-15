@@ -33,6 +33,11 @@ class VisitRepository
             ->paginate();
     }
 
+    public function list()
+    {
+        return Visit::query()->with(['label'])->get();
+    }
+
     /**
      * @param array $data
      * @return array

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,13 +15,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('visits', function (Blueprint $table) {
+        Schema::create('visit_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Label::class, 'label_id');
-            $table->foreignIdFor(\App\Models\VisitType::class, 'visit_type_id');
-            $table->string('note')->nullable();
-            $table->dateTime('start_time');
-            $table->boolean('is_active')->default(true);
+            $table->string('description');
+            $table->decimal('price')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('visits');
+        Schema::dropIfExists('visit_types');
     }
 };
