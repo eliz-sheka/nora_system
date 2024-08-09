@@ -10,6 +10,7 @@ use App\Models\Visit;
 use App\Repositories\DiscountRepository;
 use App\Repositories\LabelRepository;
 use App\Repositories\VisitRepository;
+use App\Repositories\VisitTypeRepository;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -33,7 +34,9 @@ class VisitController
             'admin-panel/visits/VisitsList',
             [
                 'visits' => $this->visitRepository->list(),
-                'labels' => (new LabelRepository)->list()
+                'labels' => (new LabelRepository)->list(),
+                'discounts' => (new DiscountRepository())->list(),
+                'visit_types' => (new VisitTypeRepository())->list(),
             ],
         );
     }

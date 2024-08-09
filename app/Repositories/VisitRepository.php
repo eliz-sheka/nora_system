@@ -35,7 +35,7 @@ class VisitRepository
 
     public function list()
     {
-        return Visit::query()->with(['label'])->get();
+        return Visit::query()->with(['label', 'visitType', 'visitors'])->get();
     }
 
     /**

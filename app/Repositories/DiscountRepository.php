@@ -15,15 +15,15 @@ class DiscountRepository
      * @param string|null $filter
      * @return \Illuminate\Database\Eloquent\Collection|array
      */
-    public function list(?string $filter): Collection|array
+    public function list(?string $filter = null): Collection|array
     {
-        if (Discount::FILTER_INACTIVE === $filter) {
-            return Discount::query()->where('active_till', '<', now())->get();
-        } elseif (Discount::FILTER_DELETED === $filter) {
-            return Discount::query()->onlyTrashed()->get();
-        } elseif (Discount::FILTER_ALL === $filter) {
-            return Discount::query()->withTrashed()->get();
-        }
+//        if (Discount::FILTER_INACTIVE === $filter) {
+//            return Discount::query()->where('active_till', '<', now())->get();
+//        } elseif (Discount::FILTER_DELETED === $filter) {
+//            return Discount::query()->onlyTrashed()->get();
+//        } elseif (Discount::FILTER_ALL === $filter) {
+//            return Discount::query()->withTrashed()->get();
+//        }
 
         return Discount::query()
             ->active()

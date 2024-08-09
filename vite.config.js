@@ -4,10 +4,10 @@ import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
     server: {
-        host: '172.20.0.3',
+        host: '172.20.0.2',
         port: 5173,
         hmr: {
-            host: '172.20.0.3',
+            host: '172.20.0.2',
         },
     },
     plugins: [

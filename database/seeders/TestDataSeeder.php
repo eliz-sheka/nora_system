@@ -16,9 +16,9 @@ class TestDataSeeder extends Seeder
             RolesTableSeeder::class,
             UsersTableSeeder::class,
             TestUserSeeder::class,
-            TestLabelSeeder::class,
-            TestDiscountSeeder::class,
-            TestVisitTypeSeeder::class,
+            VisitTypesSeeder::class,
+            LabelsSeeder::class,
+            DiscountsSeeder::class,
             TestVisitSeeder::class,
         ]);
     }
