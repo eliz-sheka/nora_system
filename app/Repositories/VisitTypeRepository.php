@@ -11,4 +11,20 @@ class VisitTypeRepository
     {
         return VisitType::query()->get();
     }
+
+    public function create(array $data): VisitType
+    {
+        /** @var VisitType */
+        return VisitType::query()->create($data);
+    }
+
+    public function update(VisitType $visitType, array $data): bool
+    {
+        return $visitType->update($data);
+    }
+
+    public function delete(VisitType $visitType, bool $force = false): bool
+    {
+        return $force ? $visitType->forceDelete() : $visitType->delete();
+    }
 }

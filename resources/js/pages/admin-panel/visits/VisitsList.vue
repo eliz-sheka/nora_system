@@ -78,7 +78,7 @@ import VisitRow from './VisitRow.vue';
 import VisitorRow from './VisitorRow.vue';
 
 const page = usePage();
-let list = ref(page.props.visits);
+const list = ref(page.props.visits);
 
 const visitor = {
     id: null,
@@ -106,7 +106,6 @@ const newVisitForm = ref(false);
 
 watch(() => visit.value.visitors_number,
     (newValue, oldValue) => {
-    console.log('segse');
         if (newValue > oldValue) {
             visit.value.visitors.push({ ...visitor });
         } else if (oldValue > newValue) {

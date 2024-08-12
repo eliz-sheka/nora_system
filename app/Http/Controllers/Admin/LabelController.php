@@ -6,7 +6,10 @@ use App\Http\Requests\Admin\LabelRequest;
 use App\Models\Label;
 use App\Repositories\LabelRepository;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Inertia\Inertia;
 
 class LabelController
 {
@@ -20,13 +23,16 @@ class LabelController
         $this->labelRepository = new LabelRepository();
     }
 
-    /**
-     * @return \Illuminate\Contracts\View\View
-     */
-    public function list(): View
+    public function list(): \Inertia\Response
     {
-        return \view('admin.label.list', ['entities' => $this->labelRepository->list()]);
+        return Inertia::render(
+            'admin-panel/labels/LabelsList',
+            [
+                'labels' => $this->labelRepository->list(),
+            ],
+        );
     }
+
     public function deletedList(): View
     {
         $entities = $this->labelRepository->list(true);
@@ -49,29 +55,25 @@ class LabelController
         return \view('admin.label.edit', ['entity' => $label]);
     }
 
-    /**
-     * @param \App\Http\Requests\Admin\LabelRequest $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function save(LabelRequest $request): RedirectResponse
+    public function save(LabelRequest $request): JsonResponse
     {
-        $this->labelRepository->create($request->validated());
+        $label = $this->labelRepository->create($request->validated());
 
-        return redirect(route('admin.label.list'));
+        return new JsonResponse($label, Response::HTTP_CREATED);
     }
 
-    public function update(LabelRequest $request, Label $label): RedirectResponse
+    public function update(LabelRequest $request, Label $label): JsonResponse
     {
         $this->labelRepository->update($label, $request->validated());
 
-        return redirect(route('admin.label.list'));
+        return new JsonResponse($label, Response::HTTP_OK);
     }
 
-    public function delete(Label $label): RedirectResponse
+    public function delete(Label $label): JsonResponse
     {
         $label->delete();
 
-        return redirect(route('admin.label.list'));
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
     public function forceDelete(Label $label): RedirectResponse

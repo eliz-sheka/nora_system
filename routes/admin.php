@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\LabelController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VisitController;
+use App\Http\Controllers\Admin\VisitTypeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index'])->name('index');
@@ -26,7 +27,7 @@ Route::prefix('user')->name('user.')->group(function () {
     });
 });
 
-Route::prefix('label')->name('label.')->group(function () {
+Route::prefix('labels')->name('labels.')->group(function () {
     Route::get('/', [LabelController::class, 'list'])->name('list');
     Route::get('deleted', [LabelController::class, 'deletedList'])->name('list.deleted');
     Route::get('create', [LabelController::class, 'create'])->name('create');
@@ -38,6 +39,17 @@ Route::prefix('label')->name('label.')->group(function () {
 
     Route::middleware('role:admin')->group(function () {
         Route::delete('delete/{label}', [LabelController::class, 'forceDelete'])->name('delete.force');
+    });
+});
+
+Route::prefix('visit-types')->name('visit-types.')->group(function () {
+    Route::get('/', [VisitTypeController::class, 'list'])->name('list');
+    Route::post('/', [VisitTypeController::class, 'save'])->name('save');
+    Route::patch('{visitType}', [VisitTypeController::class, 'update'])->name('update');
+    Route::delete('{visitType}', [VisitTypeController::class, 'delete'])->name('delete');
+
+    Route::middleware('role:admin')->group(function () {
+        Route::delete('delete/{visitType}', [VisitTypeController::class, 'forceDelete'])->name('delete.force');
     });
 });
 
