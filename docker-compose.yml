@@ -19,6 +19,7 @@ services:
             - host.docker.internal:host-gateway
 
     nginx:
+        platform: linux/x86_64
         image: nginx:1.17
         container_name: nora_nginx
         restart: unless-stopped
